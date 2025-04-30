@@ -6,45 +6,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minha Lista de Tarefas</title>
 
-    <!-- Link para o arquivo de estilos CSS -->
     <link rel="stylesheet" href="CSS/style.css">
 </head>
 
 <body>
 
-    <!-- Título principal da página -->
     <h1 class="titulo">Minha Lista de Tarefas</h1>
 
-    <!-- Campo de entrada para digitar novas tarefas -->
     <input class="campo-tarefa" type="text" placeholder="Digite uma nova tarefa">
 
-    <!-- Botão para adicionar uma nova tarefa -->
-    <button class="botao-adicionar">Adicionar<img src="img/adicionar.png" alt="Adicionar"
+    <button class="botao-adicionar">Adicionar <img src="img/adicionar.png" alt="Adicionar"
             style="width: 20px; height: 20px;"></button>
 
-    <!-- Lista não ordenada que vai conter as tarefas -->
+
     <ul class="lista-tarefas">
 
-        <!-- Cada item da lista representa uma tarefa -->
         <li class="item-tarefa">
             Tarefa 1
-            <!-- Botão para remover a tarefa -->
-            <div>
-                <button class="botao-editar">Editar<img src="img/editar.png" alt="Editar" style="width: 12px; height: 12px;"></button>
-                <button class="botao-deletar">Deletar<img src="img/deletar.png" alt="Deletar" style="width: 12px; height: 12px;"></button>
-            </div>
+            <button class="botao-editar">Editar <img src="img/editar.png" alt="Editar"
+                    style="width: 15px; height: 15px;"></button>
+            <button class="botao-remover"><img src="img/remover.png" alt="Remover"
+                    style="width: 20px; height: 20px;"></button>
         </li>
 
         <li class="item-tarefa">
             Tarefa 2
-            <div>
-                <button class="botao-editar">Editar<img src="img/editar.png" alt="Editar" style="width: 12px; height: 12px;"></button>
-                <button class="botao-deletar">Deletar<img src="img/deletar.png" alt="Deletar" style="width: 12px; height: 12px;"></button>
-            </div>
+            <button class="botao-editar">Editar <img src="img/editar.png" alt="Editar"
+                    style="width: 15px; height: 15px;"></button>
+            <button class="botao-remover"><img src="img/remover.png" alt="Remover"
+                    style="width: 20px; height: 20px;"></button>
         </li>
 
+        <li class="item-tarefa">
+            Tarefa 3
+            <button class="botao-editar">Editar <img src="img/editar.png" alt="Editar"
+                    style="width: 15px; height: 15px;"></button>
+            <button class="botao-remover"><img src="img/remover.png" alt="Remover"
+                    style="width: 20px; height: 20px;"></button>
+        </li>
+
+
     </ul>
-<script src="JS/script.js"></script>
+
+    <script src="js/script.js"></script> <!-- Link para o arquivo JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Link para o jQuery -->
+
+
 </body>
 
 </html>
