@@ -1,0 +1,36 @@
+{
+  "name": "apilocalstorage",
+  "version": "1.0.0",
+  "description": "To Do List, CRUD, API RESTful, Node, web Server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maduaperes/APILocalStorage.git"
+  },
+  "keywords": [
+    "Projeto",
+    "To",
+    "Do",
+    "List",
+    "para",
+    "adicionar",
+    "pesquisar",
+    "tarefas",
+    "existentes",
+    "adicionar",
+    "novas",
+    "editá-las",
+    "e",
+    "exclui-las."
+  ],
+  "author": "Madu Peres",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maduaperes/APILocalStorage/issues"
+  },
+  "homepage": "https://github.com/maduaperes/APILocalStorage#readme"
+}
