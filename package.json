@@ -32,5 +32,9 @@
   "bugs": {
     "url": "https://github.com/maduaperes/APILocalStorage/issues"
   },
-  "homepage": "https://github.com/maduaperes/APILocalStorage#readme"
+  "homepage": "https://github.com/maduaperes/APILocalStorage#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
 }
