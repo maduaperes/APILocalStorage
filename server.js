@@ -1,123 +1,160 @@
+//Importa o framework Express para facilitar a criação de APIs com Node.js
+
 const express = require('express');
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const uri = "mongodb+srv://usuarioTeste:Teste123@cluster0.wl8ayaf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+ 
+//Importa o módulo cors para permitir requisições de diferentes origens
+
 const cors = require('cors');
+ 
+//Cria uma instância da aplicação Express
+
 const app = express();
-const port = process.env.PORT || 3000;
-const nomeBanco = 'dados';
-const nomeColecao = 'App';
+ 
+//Define a porta em que o servidor irá rodar
 
-let db;
-const client = new MongoClient(uri, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-    }
-});
+const PORT = 3000;
+ 
+//Aplica o middleware cors para permitir requisições de diferentes origens
 
-async function run() {
-    try {
-        await client.connect();
-        db = client.db(nomeBanco);
-
-    } finally {
-        await client.close();
-    }
-}
 app.use(cors());
+ 
+/*Aplica o middleware express.json() que permite receber
+
+e interpretar JSON no corpo das requisições (red.body)*/
+
 app.use(express.json());
-app.use(express.static('public'));
+ 
+//Array em memória para simular um banco de dados
 
-//API ADICIONAR
-app.post('/api/items', async (req, res) => {
-    try {
-        const { nome, descricao } = req.body;
+let tarefas = [];
+ 
+/*------------------ ROTAS DA API ------------------*/
+ 
+//Rota GET - Retorna a lista com todas as tarefas
 
-        if (!nome) {
-            return res.status(400).json({ message: 'O campo nome não foi preenchido' });
-        }
-        const novoItem = { nome, descricao: descricao || '', createdAt: new Date() };
-        const resultado = await db.collection(nomeColecao).insertOne(novoItem);
-        const inserirItem = await db.collection(nomeColecao).findOne({ _id: resultado.insertedId });
-        res.status(201).json(inserirItem);
-    } catch (error) {
-        console.error("Erro ao adicionar items:", error);
-        res.status(500).json({ message: 'Erro interno do servidor ao inserir dados' });
-    }
+app.get('/tarefas', (req, res) => {
+
+  res.json(tarefas); //Responde com a lista de tarefas em formato JSON
+
 });
+ 
+//Rota POST - Adiciona uma nova tarefa à lista
 
-//API LEITURA
-app.get('/api/items', async (req, res) => {
-    if(!db){
-        return res.status(503).json({message:'Serviço indisponivel (Banco de Dados)'});
+app.post('/tarefas', (req, res) => {
+
+  //Extrai o campo 'texto' enviado no corpo da requisição
+
+  const { texto } = req.body; 
+
+  //Validação simples: verifica se o campo 'texto' foi enviado
+
+    if (!texto) {
+
+        //Se não foi enviado, responde com erro 400 (Bad Request)
+
+        return res.status(400).json({ error: 'Texto da tarefa é obrigatório' });
+
     }
-    try {
-        const items = await db.collection(nomeColecao).find({}).sort({ createdAt: -1 }).toArray();
-        res.status(200).json(items);
-    } catch (error) {
-        console.error("Erro ao buscar os dados", error);
-        res.status(500).json({ message: "Erro interno do servidor ao buscar dados" });
-    }
+
+  //Cria um novo objeto tarefa com ID único baseado no timestamp atual
+
+  const novaTarefa = { id: Date.now(), texto };
+ 
+  //Adiciona a nova tarefa ao array de tarefas
+
+  tarefas.push(novaTarefa); 
+
+  //Responde com a nova tarefa criada e o código HTTP (status) 201 => Criado
+
+  res.status(201).json(novaTarefa); 
+
 });
+ 
+//Rota PUT - Atualiza uma tarefa existente
 
-//API ATUALIZAR 
-app.put('/api/items/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        if (!ObjectId.isValid(id)) {
-            return res.status(400).json({ message: 'ID inválido' });
-        }
-        const { nome, descricao } = req.body;
-        if (!nome) {
-            return res.status(400).json({ message: 'O campo nome não foi preenchido' });
-        }
-        const atualizarDados = {
-            $set: {
-                nome, descricao: descricao || '', updatedAt: new Date()
-            }
-        };
-        const result = await db.collection(nomeColecao).findOneAndUpdate(
-            { _id: new ObjectId(id) },
-            atualizarDados,
-            { returnDocument: 'after' }
-        );
+app.put('/tarefas/:id', (req, res) => {
 
-        if (!result || !result.value) {
-            return res.status(404).json({ message: 'Dado não encontrado para atualização' });
-        }
-        res.status(200).json(result.value);
-    } catch (error) {
-        console.error("Erro ao atualizar os dados", error);
-        res.status(500).json({ message: "Erro interno do servidor ao atualizar os dados" });
+  //Obtém o ID da tarefa a ser atualizada a partir dos parâmetros da URL
+
+  const id = parseInt(req.params.id);
+
+  //Extrai o novo texto enviado no corpo da requisição
+
+  const { texto } = req.body;
+ 
+  //Encontra o índice da tarefa a ser atualizada no array de tarefas
+
+  const index = tarefas.find(tarefa => tarefa.id == id);
+ 
+  //Validação: verifica se a tarefa existe
+
+  if (!index) {
+
+    //Se não existe, responde com erro 404 (Not Found)
+
+    return res.status(404).json({ error: 'Tarefa não encontrada' });
+
+  }
+ 
+    //Se um novo texto foi enviado, atualiza o campo 'texto' da tarefa
+
+    if (texto)  {
+
+       index.texto = texto; 
+
     }
-});
 
-//API DELETAR
+    //Se não foi enviado, mantém o texto atual
 
-app.delete('/api/items/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        if (!ObjectId.isValid(id)) {
-            return res.status(400).json({ message: 'ID inválido' });
-        }
+    else {
 
-        const result = await db.collection(nomeColecao).deleteOne({ _id: new ObjectId(id) });
-        if (result.deletedCount === 0) {
-            return res.status(404).json({ message: 'Dado não encotrado para ser deletado' });
-        }
-        res.status(200).json({message:"Item excluido com sucesso!"});
-    } catch (error) {
-        console.error("Erro ao deletar os dados", error);
-        res.status(500).json({ message: "Erro interno do servidor ao deletar os dados" });
+       index.texto = index.texto;
+
     }
-});
 
-async function iniciarServidor() {
-    run().catch(console.dir);
-    
-    app.listen(port, ()=>{
-        console.log(`Servidor rodando em http:\\localhost:${port}`);
-    });
-}
-iniciarServidor();
+  //Responde com a tarefa atualizada
+
+  res.json(tarefas[index]); 
+
+});
+ 
+//Rota DELETE - Remove uma tarefa existente
+
+app.delete('/tarefas/:id', (req, res) => {
+
+  //Obtém o ID da tarefa a ser removida a partir dos parâmetros da URL
+
+  const id = parseInt(req.params.id); 
+
+  //Encontra o índice da tarefa a ser removida no array de tarefas
+
+  const index = tarefas.find(tarefa => tarefa.id == id);
+ 
+  //Validação: verifica se a tarefa existe
+
+  if (!index) {
+
+    //Se não existe, responde com erro 404 (Not Found)
+
+    return res.status(404).json({ error: 'Tarefa não encontrada' });
+
+  }
+ 
+  //Remove a tarefa do array de tarefas
+
+  tarefas = tarefas.filter(tarefa => tarefa.id != id); 
+
+  //Responde com sucesso (status 204) sem conteúdo, indicando que a operação foi bem-sucedida
+
+  res.sendStatus(204); 
+
+});
+ 
+//Inicia o servidor na porta definida e exibe uma mensagem no console
+
+app.listen(PORT, () => {
+
+  console.log(`Servidor rodando na porta ${PORT}`); 
+
+});
+ 
