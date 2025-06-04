@@ -1,99 +1,216 @@
-/* Arquivo: CSS/style.css */
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 /* Estilo geral da página */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
-  margin: 0;
-  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #d3cce3, #e9e4f0);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 50px;
+  padding: 50px 20px;
+}
+
+/* Background animado com bolhas */
+body::before,
+body::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  z-index: 0;
+  animation: float 10s infinite ease-in-out alternate;
+  opacity: 0.2;
+}
+
+body::before {
+  width: 300px;
+  height: 300px;
+  background: #a29bfe;
+  top: -100px;
+  left: -100px;
+}
+
+body::after {
+  width: 400px;
+  height: 400px;
+  background: #81ecec;
+  bottom: -150px;
+  right: -150px;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(20px) rotate(10deg);
+  }
+}
+
+/* Conteúdo acima do background */
+body > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* Título principal */
 .titulo {
-  color: #333;
-  font-size: 2.5em;
+  color: #4b3f72;
+  font-size: 3em;
   margin-bottom: 30px;
+  animation: fadeInDown 1s ease-out;
 }
 
 /* Campo de entrada da tarefa */
 .campo-tarefa {
-  padding: 10px;
+  padding: 12px 15px;
   font-size: 1em;
-  width: 250px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-right: 150px;
+  width: 300px;
+  border: 1px solid #bbaedb;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.campo-tarefa:focus {
+  outline: none;
+  border-color: #836fff;
+  box-shadow: 0 0 8px rgba(131, 111, 255, 0.3);
 }
 
 /* Botão de adicionar tarefa */
 .botao-adicionar {
-  padding: 8px 20px;
+  margin-top: 15px;
+  padding: 10px 20px;
   font-size: 1em;
-  background-color: #4CAF50;
+  background: linear-gradient(45deg, #836fff, #9b59b6);
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: -40px;
-  margin-left: 270px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .botao-adicionar:hover {
-  background-color: #45a049;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Lista de tarefas */
 .lista-tarefas {
-  list-style-type: none;
-  width: 1000px;
-  margin-top: 100px;
+  list-style: none;
+  width: 100%;
+  max-width: 700px;
+  margin-top: 50px;
+  animation: fadeIn 1s ease-out;
 }
 
 /* Item individual da tarefa */
 .item-tarefa {
-  background-color: #fff;
+  background-color: #ffffff;
   border: 1px solid #ddd;
-  margin-bottom: 10px;
-  padding: 25px;
+  margin-bottom: 15px;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+  animation: slideIn 0.5s ease;
 }
 
-/* Botão de remover tarefa */
-.botao-remover {
-  background-color: #e74c3c;
-  color: rgb(0, 0, 0);
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.item-tarefa:hover {
+  transform: translateY(-3px);
 }
 
-.botao-remover:hover {
-  background-color: #c0392b;
-}
-
-/* Botão de editar tarefa */
+/* Botões de ação */
+.botao-remover,
 .botao-editar {
-  background-color: #3498db;
-  color: white;
   border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
+  padding: 8px 14px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  right: 0;
-  /* Ajuste a posição conforme necessário */
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.botao-editar {
+  background-color: #5dade2;
+  color: white;
 }
 
 .botao-editar:hover {
-  background-color: #2980b9;
+  background-color: #3498db;
+}
+
+.botao-remover {
+  background-color: #e67e9f;
+  color: white;
+}
+
+.botao-remover:hover {
+  background-color: #c94c6f;
+}
+
+/* Animações */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .campo-tarefa {
+    width: 100%;
+  }
+
+  .lista-tarefas {
+    width: 100%;
+  }
+
+  .item-tarefa {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
 }
