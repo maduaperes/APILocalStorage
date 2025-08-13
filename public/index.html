@@ -2,55 +2,47 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Minha Lista de Tarefas</title>
 
-    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="../public/CSS/style.css" />
 </head>
 
 <body>
 
     <h1 class="titulo">Minha Lista de Tarefas</h1>
 
-    <input class="campo-tarefa" type="text" placeholder="Digite uma nova tarefa">
+    <form id="form-tarefa">
+        <input class="campo-tarefa" type="text" placeholder="Título da tarefa" required />
 
-    <button class="botao-adicionar">Adicionar <img src="../img/adicionar.png" alt="Adicionar"
-            style="width: 20px; height: 20px;"></button>
+        <textarea class="campo-descricao" placeholder="Descrição da tarefa"></textarea>
 
+        <label for="status">Status*</label>
+        <select class="campo-status" required>
+            <option value="">Selecione o status</option>
+            <option value="Pendente">Pendente</option>
+            <option value="Em andamento">Em andamento</option>
+            <option value="Concluída">Concluída</option>
+        </select>
 
-    <ul class="lista-tarefas">
+        <label for="prioridade">Prioridade*</label>
+        <select class="campo-prioridade" required>
+            <option value="">Selecione a prioridade</option>
+            <option value="Baixa">Baixa</option>
+            <option value="Média">Média</option>
+            <option value="Alta">Alta</option>
+        </select>
 
-       <!-- <li class="item-tarefa">
-            Tarefa 1
-            <button class="botao-editar">Editar <img src="../img/editar.png" alt="Editar"
-                    style="width: 15px; height: 15px;"></button>
-            <button class="botao-remover"><img src="../img/remover.png" alt="Remover"
-                    style="width: 20px; height: 20px;"></button>
-        </li>
+        <label for="data-entrega">Data de Entrega</label>
+        <input class="campo-data-entrega" type="date" />
 
-        <li class="item-tarefa">
-            Tarefa 2
-            <button class="botao-editar">Editar <img src="../img/editar.png" alt="Editar"
-                    style="width: 15px; height: 15px;"></button>
-            <button class="botao-remover"><img src="../img/remover.png" alt="Remover"
-                    style="width: 20px; height: 20px;"></button>
-        </li>
+        <button class="botao-adicionar" type="submit">Adicionar Tarefa</button>
+    </form>
 
-        <li class="item-tarefa">
-            Tarefa 3
-            <button class="botao-editar">Editar <img src="../img/editar.png" alt="Editar"
-                    style="width: 15px; height: 15px;"></button>
-            <button class="botao-remover"><img src="../img/remover.png" alt="Remover"
-                    style="width: 20px; height: 20px;"></button>
-        </li>
+    <ul class="lista-tarefas"></ul>
 
--->
-    </ul>
-
-    <script src="../SCRIPT/scriptIntegracaoAPI.js"></script> <!-- Link para o arquivo JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Link para o jQuery -->
-
+    <script src="../SCRIPT/scriptIntegracaoAPI.js"></script>
 
 </body>
 

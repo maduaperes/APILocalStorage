@@ -68,37 +68,72 @@ body > * {
   animation: fadeInDown 1s ease-out;
 }
 
-/* Campo de entrada da tarefa */
-.campo-tarefa {
-  padding: 12px 15px;
-  font-size: 1em;
-  width: 300px;
-  border: 1px solid #bbaedb;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  transition: all 0.3s ease-in-out;
+/* Formulário */
+form#form-tarefa {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: white;
+  padding: 20px 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-.campo-tarefa:focus {
+/* Inputs e textarea */
+.campo-tarefa,
+.campo-descricao,
+.campo-status,
+.campo-prioridade,
+.campo-data-entrega {
+  font-size: 1em;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #bbaedb;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.3s ease-in-out;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
+}
+
+.campo-tarefa:focus,
+.campo-descricao:focus,
+.campo-status:focus,
+.campo-prioridade:focus,
+.campo-data-entrega:focus {
   outline: none;
   border-color: #836fff;
   box-shadow: 0 0 8px rgba(131, 111, 255, 0.3);
 }
 
-/* Botão de adicionar tarefa */
+/* Textarea */
+.campo-descricao {
+  resize: vertical;
+  min-height: 70px;
+}
+
+/* Labels */
+form#form-tarefa label {
+  width: 100%;
+  font-weight: 600;
+  color: #4b3f72;
+  margin-top: 10px;
+}
+
+/* Botão adicionar */
 .botao-adicionar {
   margin-top: 15px;
-  padding: 10px 20px;
-  font-size: 1em;
+  padding: 12px 25px;
+  font-size: 1.1em;
   background: linear-gradient(45deg, #836fff, #9b59b6);
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-shrink: 0;
+  width: 100%;
 }
 
 .botao-adicionar:hover {
@@ -123,7 +158,7 @@ body > * {
   padding: 20px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease;
@@ -134,7 +169,89 @@ body > * {
   transform: translateY(-3px);
 }
 
-/* Botões de ação */
+/* Conteúdo da tarefa */
+.item-tarefa-conteudo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Título */
+.item-tarefa-titulo {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #4b3f72;
+}
+
+/* Descrição */
+.item-tarefa-descricao {
+  font-size: 1rem;
+  color: #555;
+  white-space: pre-wrap;
+}
+
+/* Badges container */
+.item-tarefa-badges {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* Badge base */
+.badge {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+  user-select: none;
+}
+
+/* Status badges */
+.badge.status.Pendente {
+  background-color: #e67e22;
+}
+
+.badge.status.Em\ andamento {
+  background-color: #3498db;
+}
+
+.badge.status.Concluída {
+  background-color: #27ae60;
+}
+
+/* Prioridade badges */
+.badge.prioridade.Baixa {
+  background-color: #7f8c8d;
+}
+
+.badge.prioridade.Média {
+  background-color: #f39c12;
+}
+
+.badge.prioridade.Alta {
+  background-color: #e74c3c;
+}
+
+/* Datas */
+.item-tarefa-datas {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 6px;
+  display: flex;
+  gap: 15px;
+  font-style: italic;
+}
+
+/* Botões ação */
+.item-tarefa-botoes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-left: 15px;
+}
+
 .botao-remover,
 .botao-editar {
   border: none;
@@ -146,6 +263,8 @@ body > * {
   align-items: center;
   gap: 6px;
   font-weight: 500;
+  width: 100%;
+  justify-content: center;
 }
 
 .botao-editar {
@@ -200,17 +319,27 @@ body > * {
 
 /* Responsividade */
 @media (max-width: 600px) {
-  .campo-tarefa {
-    width: 100%;
+  form#form-tarefa {
+    flex-direction: column;
   }
 
-  .lista-tarefas {
+  .campo-tarefa,
+  .campo-descricao,
+  .campo-status,
+  .campo-prioridade,
+  .campo-data-entrega,
+  .botao-adicionar {
     width: 100%;
   }
 
   .item-tarefa {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .item-tarefa-botoes {
+    flex-direction: row;
+    margin-left: 0;
+    margin-top: 12px;
     gap: 10px;
   }
 }
